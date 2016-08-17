@@ -33,7 +33,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.use('/', routes);
 app.use('/credits', require('./routes/credits'));
 
