@@ -15,7 +15,7 @@ router.post("/", (req, res) => {
 
 router.get("/", (req, res) => {
   Trans.find({}, (err, trans) => {
-    return res.status(err ? 500 :200).send(err || trans)
+    return res.status(err ? 400 :200).send(err || trans)
   })
 });
 
@@ -23,7 +23,7 @@ router.put("/:id", (req, res) => {
   // console.log("req.body:", req.body)
   //   console.log("req.params:", req.params.id)
   Trans.findByIdAndUpdate(req.params.id ,req.body, (err, trans) => {
-    return res.status(err ? 500 :200).send(err || trans)
+    return res.status(err ? 400 :200).send(err || trans)
   })
 });
 

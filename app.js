@@ -22,8 +22,8 @@ var routes = require('./routes/index');
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -32,7 +32,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+const PORT = 3000;
 app.use('/', routes);
 app.use('/credits', require('./routes/credits'));
 
@@ -68,4 +68,11 @@ app.use(function(err, req, res, next) {
 });
 
 
-module.exports = app;
+app.get('*', function(req, res) {
+ res.sendFile(path.join( __dirname, './public/index.html'));
+});
+
+//module.exports = app;
+app.listen(PORT, err => {
+  console.log(err || `PORT listening on port ${PORT}`)
+});

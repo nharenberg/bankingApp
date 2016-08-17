@@ -6,3 +6,24 @@ body {
 a {
   color: #00B7FF;
 }
+
+#newTransForm {
+  display: inline;
+  float: left;
+  padding: 10px;
+  border: 5px dotted red;
+}
+
+.transferButton {
+  width: 456px;
+  margin-top: 5px;
+}
+
+/*table {
+  border: 2px solid black;
+}
+
+th {
+  padding: 10px;
+  border: 1px solid black;
+}*/
