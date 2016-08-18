@@ -22,6 +22,8 @@ const DisplayTable = React.createClass({
   },
 
   editInput(transaction) {
+    console.log("this:", this);
+    console.log("transaction:", transaction);
     this.setState({
       editDescription: transaction.description, 
       editCredit: transaction.credit, 
@@ -33,7 +35,7 @@ const DisplayTable = React.createClass({
     e.persist();
     ajax(`/credits/${e.target.id}`, {method: 'DELETE'})
         .then(res => {
-          console.log("TARGET",e.target);
+          //console.log("TARGET",e.target);
           const newData = this.state.data.filter(dataElement => (e.target.id !== dataElement._id))
           this.setState({data: newData})
         })
@@ -44,7 +46,7 @@ const DisplayTable = React.createClass({
         get("/credits")
         .then(res => {
           this.setState({data: res})
-          console.log("res:", res);
+          //console.log("res:", res);
           res.forEach(transactions => {
             this.setState({
               totalD: this.state.totalD+transactions.debit,
@@ -76,7 +78,7 @@ const DisplayTable = React.createClass({
     }
     )}
 
-    console.log("state:", this.state)
+    //console.log("state:", this.state)
     return (
       <div>
         <table className="table">
@@ -100,9 +102,9 @@ const DisplayTable = React.createClass({
           </Modal.Header>
 
           <Modal.Body>
-            <input id="descriptionEdit" value={this.state.editDescription}/>
-            <input id="creditEdit" value={this.state.editCredit}/>
-            <input id="debitEdit" value={this.state.editDebit}/>
+            <input onChange={(e) => {this.setState({descriptionEditTemp: e.target.value})}} id="descriptionEdit" placeholder={this.state.editDescription}/>
+            <input onChange={(e) => {this.setState({creditEditTemp: e.target.value})}} id="creditEdit" placeholder={this.state.editCredit}/>
+            <input onChange={(e) => {this.setState({debitEditTemp: e.target.value})}} id="debitEdit" placeholder={this.state.editDebit}/>
 
           </Modal.Body>
 
