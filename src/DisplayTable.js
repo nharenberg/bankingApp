@@ -16,19 +16,50 @@ const DisplayTable = React.createClass({
       editCredit: 0,
       editDebit: 0,
       showEditForms: false,
-      show: false
+      show: false,
+      descriptionEditTemp: null,
+      creditEditTemp: null,
+      debitEditTemp: null
     }
     
   },
 
   editInput(transaction) {
-    console.log("this:", this);
+    //console.log("this:", this);
     console.log("transaction:", transaction);
     this.setState({
       editDescription: transaction.description, 
       editCredit: transaction.credit, 
       editDebit: transaction.debit, 
       show: true})
+  },
+
+  saveEdit() {
+    console.log('this.state:', this.state);
+    let newObj = {
+      // description: '',
+      // debit: null,
+      // credit: null
+    }
+    if(this.state.descriptionEditTemp){
+      newObj.description = this.state.descriptionEditTemp
+    }
+    if(this.state.creditEditTemp){
+      newObj.credit = this.state.creditEditTemp
+    }
+    if(this.state.debitEditTemp){
+      newObj.debit = this.state.debitEditTemp
+    }
+    console.log("newObj:", newObj);
+
+    ajax({
+      url: '',
+      type: "PUT",
+      data: newObj,
+      success: (err, newData) => {
+        console.log("data:", data);
+      }
+    })
   },
 
   deleteInput(e) {
@@ -110,7 +141,7 @@ const DisplayTable = React.createClass({
 
           <Modal.Footer>
             <Button onClick={close}>Close</Button>
-            <Button bsStyle="primary">Save changes</Button>
+            <Button onClick={this.saveEdit} bsStyle="primary">Save changes</Button>
           </Modal.Footer>
 
         </Modal>
