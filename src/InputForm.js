@@ -1,6 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import {post, get} from "jquery"
+//import EditModal from "./Modal"
 
 const InputForm = React.createClass({
 
@@ -47,4 +48,3 @@ getInitialState() {
   }
 });
 module.exports = InputForm
-

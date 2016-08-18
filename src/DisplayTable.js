@@ -2,6 +2,8 @@ import React from "react"
 import ReactDOM from "react-dom"
 import {post, get, ajax} from "jquery"
 import Moment from "moment"
+import {Modal, Button} from "react-bootstrap"
+//import EditModal from "./Modal"
 
 
 const DisplayTable = React.createClass({
@@ -9,9 +11,22 @@ const DisplayTable = React.createClass({
     return {
       data: null,
       totalD: 0,
-      totalC: 0
+      totalC: 0,
+      editDescription: '',
+      editCredit: 0,
+      editDebit: 0,
+      showEditForms: false,
+      show: false
     }
     
+  },
+
+  editInput(transaction) {
+    this.setState({
+      editDescription: transaction.description, 
+      editCredit: transaction.credit, 
+      editDebit: transaction.debit, 
+      show: true})
   },
 
   deleteInput(e) {
@@ -44,6 +59,7 @@ const DisplayTable = React.createClass({
   },
 
   render() {
+    let close = () => this.setState({show: false});
     let tableData;
     if (this.state.data){
       tableData = this.state.data.map((transactions, index) => {
@@ -53,7 +69,8 @@ const DisplayTable = React.createClass({
           <td>{transactions.credit}</td>
           <td>{transactions.debit}</td>
           <td>{Moment().format("MMMM Do YYYY, h:mm:ss a")}</td>
-          <td><button id={transactions._id} onClick={this.deleteInput} className="deleteButton">Delete</button></td>
+          <td><button id={transactions._id} onClick={this.deleteInput} className="deleteButton btn-danger">Delete</button></td>
+          <td><button id={transactions._id} onClick={this.editInput.bind(null, transactions)} className="editButton">Edit</button></td>
         </tr>
       )
     }
@@ -61,21 +78,45 @@ const DisplayTable = React.createClass({
 
     console.log("state:", this.state)
     return (
-      <table className="table">
-        <tbody>
-          <tr>
-            <th>Description</th>
-            <th>Credit</th>
-            <th>Debit</th>
-            <th>Time</th>
-            <th>Delete</th>
-          </tr>
-          {tableData}
-          <tr className="sumData">Total Funds: ${this.state.totalC-this.state.totalD}</tr>
-        </tbody>
-      </table>
+      <div>
+        <table className="table">
+          <tbody>
+            <tr>
+              <th>Description</th>
+              <th>Credit</th>
+              <th>Debit</th>
+              <th>Time</th>
+              <th>Delete</th>
+              <th>Edit</th>
+            </tr>
+            {tableData}
+            <tr className="sumData"><td>Total Funds: ${this.state.totalC-this.state.totalD}</td></tr>
+          </tbody>
+        </table>
+
+        <Modal show={this.state.show} onHide={close}>
+          <Modal.Header>
+            <Modal.Title>Edit Form</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <input id="descriptionEdit" value={this.state.editDescription}/>
+            <input id="creditEdit" value={this.state.editCredit}/>
+            <input id="debitEdit" value={this.state.editDebit}/>
+
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button onClick={close}>Close</Button>
+            <Button bsStyle="primary">Save changes</Button>
+          </Modal.Footer>
+
+        </Modal>
+
+      </div>
     )
   }
+
 
 
 });
